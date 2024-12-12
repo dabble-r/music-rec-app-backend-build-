@@ -8,5 +8,8 @@
   },
   "author": "Nicholas Broussard",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
 }
