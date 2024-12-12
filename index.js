@@ -1,30 +1,42 @@
 const express = require('express')
 const app = express()
 
-let genres = [
+let albums = [
   {
     id: "1",
-    content: "Jazz",
+    genre: "Jazz",
     important: true
   },
   {
     id: "2",
-    content: "Blues",
+    genre: "Blues",
     important: false
   },
   {
     id: "3",
-    content: "Rock",
+    genre: "Rock",
     important: true
   }
 ]
 
+
 app.get('/', (request, response) => {
-  response.send(`<h1>Hello World!</h1>`)
+  response.send(`<h1>Hello World! and hello world!!</h1>`)
 })
 
-app.get('/api/notes', (request, response) => {
-  response.json(genres)
+app.get('/api/albums', (request, response) => {
+  response.json(albums)
+})
+
+app.get('/api/albums/:id', (request, response) => {
+  const id = request.params.id;
+  const album = albums.filter(album => album.id === id);
+  if (album.length) {
+    response.json(album);
+  } 
+  else {
+    response.status(400).send('Not found!');
+  }
 })
 
 const PORT = 3002
