@@ -72,24 +72,32 @@ app.post('/api/albums', (request, response) => {
   }
 
   const body = request.body
-
+  let duplicates = albums.filter(el => el['album'] == body.album)
+  
   if (!body.genre) {
     return response.status(400).json({ 
       error: 'genre missing' 
     })
   }
-
-  const album = {
-    id: generateId(),
-    album: body.album,
-    artist: body.artist,
-    genre: body.genre,
-    important: Boolean(body.important) || false,
+  if (duplicates.length) {
+    return response.status(400).json({ 
+      error: 'album exists!' 
+    })
   }
-
-  albums = albums.concat(album)
-
-  response.json(album)
+  else {
+    const album = {
+      id: generateId(),
+      album: body.album,
+      artist: body.artist,
+      genre: body.genre,
+      important: Boolean(body.important) || false,
+    }
+  
+    albums = albums.concat(album)
+  
+    response.json(album)
+  }
+  
 })
 
 
