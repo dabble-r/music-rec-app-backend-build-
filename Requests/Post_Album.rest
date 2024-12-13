@@ -1,0 +1,9 @@
+
+POST http://localhost:3002/api/albums HTTP/1.1
+Content-Type: application/json 
+
+{
+  "id": "null",
+  "genre": "Acid Jazz",
+  "important": true
+}
