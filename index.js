@@ -6,16 +6,22 @@ app.use(express.json())
 let albums = [
   {
     id: "1",
+    album: "Kind of Blue",
+    artist: "Miles Davis",
     genre: "Jazz",
     important: true
   },
   {
     id: "2",
+    album: "The Sky is Crying",
+    artist: "Stevie Ray Vaughan & Double Trouble",
     genre: "Blues",
     important: false
   },
   {
     id: "3",
+    album: "Led Zeppelin II",
+    artist: "Led Zeppelin",
     genre: "Rock",
     important: true
   }
@@ -28,6 +34,16 @@ app.get('/', (request, response) => {
 
 app.get('/api/albums', (request, response) => {
   response.json(albums)
+})
+
+app.get('/api/info', (request, response) => {
+  const length = albums.length;
+  const timestamp = new Date();
+  response.send(
+  `<div>
+    <p>The music library has `+ length + `albums available.</p>
+    <p>The access time is ` + timestamp + `</p>
+  </div>`)
 })
 
 app.get('/api/albums/:id', (request, response) => {
@@ -65,9 +81,11 @@ app.post('/api/albums', (request, response) => {
   }
 
   const album = {
+    id: generateId(),
+    album: body.album,
+    artist: body.artist,
     genre: body.genre,
     important: Boolean(body.important) || false,
-    id: generateId(),
   }
 
   albums = albums.concat(album)
