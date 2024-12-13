@@ -66,10 +66,9 @@ app.delete('/api/albums/:id', (request, response) => {
 
 app.post('/api/albums', (request, response) => {
   const generateId = () => {
-    const maxId = albums.length > 0
-      ? Math.max(...albums.map(n => Number(n.id)))
-      : 0
-    return String(maxId + 1)
+    let rand = Math.round(Math.random() * 1000);
+    const id = albums.length == 0 ? 1 : rand;
+    return String(id)
   }
 
   const body = request.body
