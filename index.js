@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 
+//logs requests for HTTP requests
 const requestLogger = (request, response, next) => {
   console.log("method", request.method)
   console.log('Path:  ', request.path)
@@ -9,7 +10,6 @@ const requestLogger = (request, response, next) => {
   console.log('---')
   next()
 };
-
 app.use(requestLogger)
 
 let albums = [
@@ -93,6 +93,7 @@ app.post('/api/albums', (request, response) => {
       error: 'album exists!' 
     })
   }
+
   else {
     const album = {
       id: generateId(),
@@ -109,6 +110,13 @@ app.post('/api/albums', (request, response) => {
   
 })
 
+//logs error message for unknown endpoint request
+//app calls function after all routes 
+const unknownEndpoint = (request,response) => {
+  console.log('custom error message')
+  response.status(404).send({ error: 'unknown endpoint' })
+};
+app.use(unknownEndpoint)
 
 const PORT = 3002
 app.listen(PORT, () => {
