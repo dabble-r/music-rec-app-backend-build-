@@ -1,8 +1,15 @@
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
+const cors = require('cors')
+
+morgan.token('body', function (req, res) {return JSON.stringify(req.body)})
+morgan.token('method', function(req,res) {return JSON.stringify(req.method)})
+morgan.token('path', function(req,res) {return JSON.stringify(req.path)})
+
 app.use(express.json())
-app.use(morgan('combined'))
+app.use(morgan(':method :path :body :date[web]'))
+app.use(cors)
 
 //logs requests for HTTP requests
 const requestLogger = (request, response, next) => {
@@ -12,7 +19,7 @@ const requestLogger = (request, response, next) => {
   console.log('---')
   next()
 };
-app.use(requestLogger)
+//app.use(requestLogger)
 
 let albums = [
   {
@@ -40,6 +47,7 @@ let albums = [
 
 
 app.get('/', (request, response) => {
+
   response.send(`<h1>Hello World! and hello world!!</h1>`)
 })
 

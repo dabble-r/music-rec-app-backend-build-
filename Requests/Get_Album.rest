@@ -1,0 +1,2 @@
+ 
+GET http://localhost:3002/api/albums/2 HTTP/1.1
