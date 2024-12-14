@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
   "id": "",
-  "album": "One Size Fits Everyone",
+  "album": "One Size Fits Everybody",
   "artist": "Frank Zappa",
-  "genre": "Jazz",
+  "genre": "Rock/Experimental",
   "important": true
 }
