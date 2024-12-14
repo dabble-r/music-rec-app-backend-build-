@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
 app.use(express.json())
+app.use(morgan('combined'))
 
 //logs requests for HTTP requests
 const requestLogger = (request, response, next) => {
@@ -42,6 +44,7 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/albums', (request, response) => {
+  
   response.json(albums)
 })
 
