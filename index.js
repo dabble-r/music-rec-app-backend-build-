@@ -1,8 +1,10 @@
 const express = require('express')
+const path = require('path')
 const app = express()
 const morgan = require('morgan')
 const cors = require('cors')
 app.use(cors());
+
 
 morgan.token('body', function (req, res) {return JSON.stringify(req.body)})
 morgan.token('method', function(req,res) {return JSON.stringify(req.method)})
@@ -10,6 +12,7 @@ morgan.token('path', function(req,res) {return JSON.stringify(req.path)})
 
 app.use(express.json())
 app.use(morgan(':method :path :body :date[web]'))
+app.use(express.static(path.join(__dirname, 'dist')));
 
 
 //logs requests for HTTP requests
@@ -49,7 +52,7 @@ let albums = [
 
 app.get('/', (request, response) => {
 
-  response.send(`<h1>Hello World! and hello world!!</h1>`)
+  response.sendFile(path.join(__dirname, 'dist', 'index.html'));
 })
 
 app.get('/api/albums', (request, response) => {
@@ -130,7 +133,7 @@ const unknownEndpoint = (request,response) => {
 };
 app.use(unknownEndpoint)
 
-const PORT = 3002
+const PORT = process.env.PORT || 3002
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
