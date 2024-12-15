@@ -12,7 +12,7 @@ const uri = `mongodb+srv://njb_admin:${password}@test1.sdbe3.mongodb.net/Test1?r
 mongoose.connect(uri)
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => console.error('Connection error:', err));
-
+ 
 // Define a Schema for the Album collection
 const albumSchema = new mongoose.Schema({
   album: String,

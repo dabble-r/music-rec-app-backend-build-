@@ -1,9 +1,15 @@
 // Import Mongoose
 const mongoose = require('mongoose');
 
+if (process.argv.length < 3) {
+  console.log("password needed!")
+  process.exit(1)
+}
+
 // code to connect to db from MongoDB site
 // Encode password for connection string
-const password = encodeURIComponent('Su41HrJmtSl8TUpo');
+const password = encodeURIComponent(process.argv[2]);
+//'Su41HrJmtSl8TUpo'
 
 // MongoDB Atlas connection URI
 const uri = `mongodb+srv://njb_admin:${password}@test1.sdbe3.mongodb.net/Test1?retryWrites=true&w=majority`;
