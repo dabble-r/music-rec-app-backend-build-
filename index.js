@@ -46,6 +46,20 @@ let albums = [
     artist: "Led Zeppelin",
     genre: "Rock",
     important: true
+  },
+  {
+    id: "4",
+    album: "Led Zeppelin III",
+    artist: "Led Zeppelin",
+    genre: "Rock",
+    important: true
+  },
+  {
+    id: "5",
+    album: "Led Zeppelin IV",
+    artist: "Led Zeppelin",
+    genre: "Rock",
+    important: true
   }
 ]
 
