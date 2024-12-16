@@ -9,6 +9,7 @@ const uri = process.env.MONGODB_URI;
 // console.log('uri',uri)
 
 // Connect to MongoDB using Mongoose
+mongoose.set('strictQuery',false)
 mongoose.connect(uri)
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => console.error('Connection error:', err));

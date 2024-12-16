@@ -1,10 +1,9 @@
-
 import express from 'express'
 import cors from 'cors'
-import morgan from 'morgan'
-// Import Mongoose
-import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import morgan from 'morgan'
+import Album from './models/findAlbum.js'
+
 const app = express()
 dotenv.config()
 app.use(cors());
@@ -12,7 +11,7 @@ app.use(express.static('dist'))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const baseUrl = '/api/albums'
+//const baseUrl = '/api/albums'
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -78,7 +77,12 @@ let albums = [
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // code to connect to db from MongoDB site
+
+///////////////////////////////////////////////////////////////
+// Redundant Code
+// GET request imported from models/findAlbum.js
 // MongoDB Atlas connection URI
+/*
 const uri = process.env.MONGODB_URI;
 console.log('uri:',uri)
 
@@ -98,16 +102,8 @@ const albumSchema = new mongoose.Schema({
 
 // Create a Model from the Schema
 const Album = mongoose.model('Album', albumSchema);
-
-/*
-// Iterate through DB and find any/all notes(s)
-Album.find({}).then(result => {
-  result.forEach(album => {
-    console.log(album)
-  })
-  mongoose.connection.close()
-})
 */
+//////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -176,19 +172,18 @@ app.post('/api/albums', (request, response) => {
   }
 
   else {
-    const album = {
-      id: generateId(),
-      album: body.album,
-      artist: body.artist,
-      genre: body.genre,
-      important: Boolean(body.important) || false,
-    }
+    const album = new Album (
+      {
+        id: generateId(),
+        album: body.album,
+        artist: body.artist,
+        genre: body.genre,
+        important: Boolean(body.important) || false,
+      }
+    )
   
-    albums = albums.concat(album)
-  
-    response.json(album)
+    album.save().then(savedAlbum => response.json(savedAlbum))
   }
-  
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
