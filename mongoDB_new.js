@@ -1,12 +1,12 @@
 // Import Mongoose
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+dotenv.config()
 
 // code to connect to db from MongoDB site
-// Encode password for connection string
-const password = encodeURIComponent('Su41HrJmtSl8TUpo');
 
 // MongoDB Atlas connection URI
-const uri = `mongodb+srv://njb_admin:${password}@test1.sdbe3.mongodb.net/Test1?retryWrites=true&w=majority`;
+const uri = process.env.MONGODB_URI;
 
 // Connect to MongoDB using Mongoose
 mongoose.connect(uri)
@@ -26,7 +26,7 @@ const Album = mongoose.model('Album', albumSchema);
 
 // Create and save a new album document
 const album = new Album({
-  album: 'One Size Fits All',
+  album: 'One Size Fits All - test2',
   artist: 'Frank Zappa',
   genre: 'Rock',
   important: true,
