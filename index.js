@@ -122,14 +122,23 @@ app.get('/api/albums', (request, response) => {
 })
  
 
-app.get('/api/info', (request, response) => {
-  const length = albums.length;
-  const timestamp = new Date();
-  response.send(
-  `<div>
-    <p>The music library has ` + length + `albums available.</p>
-    <p>The access time is ` + timestamp + `</p>
-  </div>`)
+app.get('/api/info', async (request, response) => {
+  try {
+     // Get the count of documents asynchronously
+     const len = await Album.countDocuments();
+     const timestamp = new Date();
+
+     // Send the response with the count and timestamp
+    response.send(
+      `<div>
+        <p>The music library has ${len} albums available.</p>
+        <p>The access time is ${timestamp}</p>
+      </div>`
+    )}
+  catch (error) {
+    console.error('Error fetching album count:', error.message);
+    response.status(500).send('An error occurred while fetching the album count.');
+  }
 })
 
 /*
@@ -270,7 +279,7 @@ app.put('/api/albums/:id', (request, response, next) => {
       response.json(updatedAlbum)
   })
     .catch(error => next(error))
-    
+
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
