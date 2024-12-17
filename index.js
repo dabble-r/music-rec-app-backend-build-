@@ -11,7 +11,7 @@ app.use(express.static('dist'))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//const baseUrl = '/api/albums'
+// const baseUrl = '/api/albums'
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -79,6 +79,7 @@ let albums = [
 // code to connect to db from MongoDB site
 
 ///////////////////////////////////////////////////////////////
+
 // Redundant Code
 // GET request imported from models/findAlbum.js
 // MongoDB Atlas connection URI
@@ -103,9 +104,11 @@ const albumSchema = new mongoose.Schema({
 // Create a Model from the Schema
 const Album = mongoose.model('Album', albumSchema);
 */
+
 //////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
@@ -131,14 +134,20 @@ app.get('/api/info', (request, response) => {
 
 
 app.get('/api/albums/:id', (request, response) => {
-  const id = request.params.id;
-  const album = albums.filter(album => album.id === id);
-  if (album.length) {
-    response.json(album);
-  } 
-  else {
-    response.status(400).send('Not found!');
-  }
+  Album.findById(request.params.id).then(album => {
+    response.json(album)
+  })
+    .then(note => {
+      if (note) {
+        response.json(note)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => {
+      console.log(error)
+      response.status(500).end()
+    })
 })
 
 
@@ -182,7 +191,8 @@ app.post('/api/albums', (request, response) => {
       }
     )
   
-    album.save().then(savedAlbum => response.json(savedAlbum))
+    album.save().then(savedAlbum => {
+      response.json(savedAlbum)})
   }
 })
 
