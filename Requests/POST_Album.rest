@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
   "id": "",
-  "album": null,
-  "artist": "Frank Zappa - test - album int",
+  "album": "One Size Fits All",
+  "artist": "Frank Zappa - test : POST - after build/deploy 3",
   "genre": "Rock/Experimental",
   "important": true
 }
