@@ -239,7 +239,6 @@ app.post('/api/albums', (request, response) => {
       error: 'album exists!' 
     })
   }
-
   else {
     const album = new Album (
       {
@@ -250,10 +249,28 @@ app.post('/api/albums', (request, response) => {
         important: Boolean(body.important) || false,
       }
     )
-  
     album.save().then(savedAlbum => {
       response.json(savedAlbum)})
   }
+})
+
+app.put('/api/albums/:id', (request, response, next) => {
+  const body = request.body;
+
+  const album = {
+    album : body.album,
+    artist : body.artist,
+    genre : body.genre,
+    important: body.important,
+    id: ""
+  }
+
+  Album.findByIdAndUpdate(request.params.id, album, { new: true })
+    .then(updatedAlbum => {
+      response.json(updatedAlbum)
+  })
+    .catch(error => next(error))
+    
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
