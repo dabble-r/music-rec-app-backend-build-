@@ -8,6 +8,7 @@ const app = express()
 dotenv.config()
 app.use(cors());
 app.use(express.static('dist'))
+app.use(express.json())
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -19,7 +20,6 @@ morgan.token('body', function (req, res) {return JSON.stringify(req.body)})
 morgan.token('method', function(req,res) {return JSON.stringify(req.method)})
 morgan.token('path', function(req,res) {return JSON.stringify(req.path)})
 
-app.use(express.json())
 app.use(morgan(':method :path :body :date[web]'))
 
 
@@ -31,7 +31,7 @@ const requestLogger = (request, response, next) => {
   console.log('---')
   next()
 };
-//app.use(requestLogger)
+app.use(requestLogger)
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,9 +127,52 @@ app.get('/api/info', (request, response) => {
   const timestamp = new Date();
   response.send(
   `<div>
-    <p>The music library has `+ length + `albums available.</p>
+    <p>The music library has ` + length + `albums available.</p>
     <p>The access time is ` + timestamp + `</p>
   </div>`)
+})
+
+/*
+// error handling within HTTP method
+app.get('/api/albums/:id', (request, response) => {
+  Album.findById(request.params.id)
+    .then(album => {
+      response.json(album)
+  })
+    .then(note => {
+      if (note) {
+        response.json(note)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => {
+      const idArr = request.params.id.split('');
+      console.log(error)
+      response.status(400).send(
+        {
+          error: `${request.params.id} is a malformed ID. 
+          Must be ${24 - idArr.length} digits longer.`
+      })
+    })
+})
+*/
+
+// error handling centralized to middleware
+// passed to next function/parameter
+app.get('/api/albums/:id', (request, response, next) => {
+  Album.findById(request.params.id)
+    .then(album => {
+      response.json(album)
+  })
+    .then(note => {
+      if (note) {
+        response.json(note)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => next(error))
 })
 
 
@@ -146,8 +189,8 @@ app.get('/api/albums/:id', (request, response) => {
       }
     })
     .catch(error => {
-      console.log(error)
       const idArr = request.params.id.split('');
+      console.log(error)
       response.status(400).send(
         {
           error: `${request.params.id} is a malformed ID. 
@@ -157,11 +200,13 @@ app.get('/api/albums/:id', (request, response) => {
 })
 
 
-app.delete('/api/albums/:id', (request, response) => {
-  const id = request.params.id
-  albums = albums.filter(album => album.id !== id)
 
-  response.status(204).end()
+app.delete('/api/albums/:id', (request, response, next) => {
+  Album.findByIdAndDelete(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 
@@ -211,6 +256,7 @@ const unknownEndpoint = (request,response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 };
 app.use(unknownEndpoint)
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

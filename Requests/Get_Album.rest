@@ -1,2 +1,0 @@
- 
-GET http://localhost:3002/api/albums/6760f4d3ccde2df8b5d167 HTTP/1.1
