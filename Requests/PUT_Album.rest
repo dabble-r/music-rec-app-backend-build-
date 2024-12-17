@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "id": "",
-  "album": "One Size Fits All - test PUT - 4",
+  "album": "One Size Fits All - test PUT - new : true",
   "artist": "Frank Zappa",
   "genre": "Rock/Experimental",
   "important": true

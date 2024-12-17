@@ -24,12 +24,13 @@ morgan.token('path', function(req,res) {return JSON.stringify(req.path)})
 app.use(morgan(':method :path :body :date[web]'))
 
 
-//logs requests for HTTP requests
-const requestLogger = (request, response, next) => {
+// logs requests for HTTP requests
+const requestLogger = (error, request, response, next) => {
   console.log("method", request.method)
   console.log('Path:  ', request.path)
   console.log('Body:  ', request.body)
   console.log('---')
+  
   next()
 };
 app.use(requestLogger)
@@ -266,7 +267,9 @@ app.post('/api/albums', (request, response, next) => {
 
 app.put('/api/albums/:id', (request, response, next) => {
   const body = request.body;
+  const { album, artist, genre } = request.body;
 
+  /*
   const album = {
     album : body.album,
     artist : body.artist,
@@ -274,13 +277,19 @@ app.put('/api/albums/:id', (request, response, next) => {
     important: body.important,
     id: ""
   }
+  */
 
-  Album.findByIdAndUpdate(request.params.id, album, { new: true })
+  Album.findByIdAndUpdate(
+    request.params.id, 
+    { album, artist, genre },  
+    { new: false,
+      runValidators: true,
+      context: 'query'
+    })
     .then(updatedAlbum => {
       response.json(updatedAlbum)
   })
     .catch(error => next(error))
-
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
