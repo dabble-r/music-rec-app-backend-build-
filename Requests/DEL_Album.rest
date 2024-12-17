@@ -1,2 +1,2 @@
 
-DELETE http://localhost:3002/api/albums/6761a0f998c073bb10876436 HTTP/1.1
+DELETE http://localhost:3002/api/albums/6761a88432aa9b0b15eb0582 HTTP/1.1

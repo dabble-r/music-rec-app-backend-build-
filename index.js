@@ -3,6 +3,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import morgan from 'morgan'
 import Album from './models/findAlbum.js'
+import mongoose from 'mongoose'
 
 const app = express()
 dotenv.config()
@@ -228,7 +229,7 @@ app.delete('/api/albums/:id', (request, response, next) => {
 })
 
 
-app.post('/api/albums', (request, response) => {
+app.post('/api/albums', (request, response, next) => {
   const body = request.body
   let duplicates = albums.filter(el => el['album'] == body.album)
   
@@ -245,15 +246,21 @@ app.post('/api/albums', (request, response) => {
   else {
     const album = new Album (
       {
-        id: "",
+        id: null,
         album: body.album,
         artist: body.artist,
         genre: body.genre,
         important: Boolean(body.important) || false,
       }
     )
-    album.save().then(savedAlbum => {
+    const error = album.validateSync();
+    console.log(error)
+    album.save()
+      .then(savedAlbum => {
       response.json(savedAlbum)})
+      .catch(errpr => {
+        next(error)
+      })
   }
 })
 
