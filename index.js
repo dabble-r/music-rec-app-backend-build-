@@ -229,12 +229,6 @@ app.delete('/api/albums/:id', (request, response, next) => {
 
 
 app.post('/api/albums', (request, response) => {
-  const generateId = () => {
-    let rand = Math.round(Math.random() * 1000);
-    const id = albums.length == 0 ? 1 : rand;
-    return String(id)
-  }
-
   const body = request.body
   let duplicates = albums.filter(el => el['album'] == body.album)
   
@@ -251,7 +245,7 @@ app.post('/api/albums', (request, response) => {
   else {
     const album = new Album (
       {
-        id: generateId(),
+        id: "",
         album: body.album,
         artist: body.artist,
         genre: body.genre,
