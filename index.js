@@ -200,13 +200,22 @@ app.get('/api/albums/:id', (request, response) => {
 })
 
 
-
 app.delete('/api/albums/:id', (request, response, next) => {
-  Album.findByIdAndDelete(request.params.id)
-    .then(result => {
-      response.status(204).end()
-    })
-    .catch(error => next(error))
+  Album.findById(request.params.id)
+   .then(album => {
+    if (!album) {
+      console.log('Album doesn\'t exist!')
+      response.status(200).send('Album already deleted!')
+    } 
+    else {
+      Album.findByIdAndDelete(request.params.id)
+        .then(result => {
+        console.log('Album deleted!')
+        response.status(200).send("Album deleted!")
+      })
+        .catch(error => next(error))
+    }
+  })   
 })
 
 
