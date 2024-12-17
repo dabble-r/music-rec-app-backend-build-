@@ -134,8 +134,9 @@ app.get('/api/info', (request, response) => {
 
 
 app.get('/api/albums/:id', (request, response) => {
-  Album.findById(request.params.id).then(album => {
-    response.json(album)
+  Album.findById(request.params.id)
+    .then(album => {
+      response.json(album)
   })
     .then(note => {
       if (note) {
@@ -146,7 +147,12 @@ app.get('/api/albums/:id', (request, response) => {
     })
     .catch(error => {
       console.log(error)
-      response.status(500).end()
+      const idArr = request.params.id.split('');
+      response.status(400).send(
+        {
+          error: `${request.params.id} is a malformed ID. 
+          Must be ${24 - idArr.length} digits longer.`
+      })
     })
 })
 
