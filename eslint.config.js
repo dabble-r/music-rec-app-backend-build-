@@ -1,15 +1,10 @@
-import globals from "globals";
+import globals from 'globals'
 import js from '@eslint/js'
 import stylisticJs from '@stylistic/eslint-plugin-js'
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   js.configs.recommended,
-  {
-    ignores: [
-      "dist/**"
-    ]
-  },
   { languageOptions: 
     { 
       globals: {
@@ -18,27 +13,33 @@ export default [
     }
   },
   {
+    ignores: [
+      'dist/**'
+    ]
+  },
+  {
     plugins: {
       '@stylistic/js': stylisticJs
     },
     rules: {
+      'arrow-spacing': [
+        'error', { 'before': true, 'after': true },
+      ],
+      'object-curly-spacing': [
+        'error', 'always'
+      ],
       '@stylistic/js/indent': [
-        'error',
-        2
+        'error', 2
       ],
       '@stylistic/js/linebreak-style': [
-        'error',
-        'unix'
+        'error', 'unix'
       ],
       '@stylistic/js/quotes': [
-        'error',
-        'single'
+        'error', 'single'
       ],
       '@stylistic/js/semi': [
-        'error',
-        'never'
+        'error', 'never'
       ],
     }, 
-      
   } 
-];
+]

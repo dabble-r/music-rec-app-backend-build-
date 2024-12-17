@@ -3,11 +3,11 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import morgan from 'morgan'
 import Album from './models/findAlbum.js'
-import mongoose from 'mongoose'
+//import mongoose from 'mongoose'
 
 const app = express()
 dotenv.config()
-app.use(cors());
+app.use(cors())
 app.use(express.static('dist'))
 app.use(express.json())
 
@@ -26,13 +26,13 @@ app.use(morgan(':method :path :body :date[web]'))
 
 // logs requests for HTTP requests
 const requestLogger = (error, request, response, next) => {
-  console.log("method", request.method)
+  console.log('method', request.method)
   console.log('Path:  ', request.path)
   console.log('Body:  ', request.body)
   console.log('---')
   
   next()
-};
+}
 app.use(requestLogger)
 
 
@@ -126,11 +126,11 @@ app.get('/api/albums', (request, response) => {
 
 app.get('/api/info', async (request, response) => {
   try {
-     // Get the count of documents asynchronously
-     const len = await Album.countDocuments();
-     const timestamp = new Date();
+    // Get the count of documents asynchronously
+    const len = await Album.countDocuments()
+    const timestamp = new Date()
 
-     // Send the response with the count and timestamp
+    // Send the response with the count and timestamp
     response.send(
       `<div>
         <p>The music library has ${len} albums available.</p>
@@ -138,8 +138,8 @@ app.get('/api/info', async (request, response) => {
       </div>`
     )}
   catch (error) {
-    console.error('Error fetching album count:', error.message);
-    response.status(500).send('An error occurred while fetching the album count.');
+    console.error('Error fetching album count:', error.message)
+    response.status(500).send('An error occurred while fetching the album count.')
   }
 })
 
@@ -175,7 +175,7 @@ app.get('/api/albums/:id', (request, response, next) => {
   Album.findById(request.params.id)
     .then(album => {
       response.json(album)
-  })
+    })
     .then(note => {
       if (note) {
         response.json(note)
@@ -191,7 +191,7 @@ app.get('/api/albums/:id', (request, response) => {
   Album.findById(request.params.id)
     .then(album => {
       response.json(album)
-  })
+    })
     .then(note => {
       if (note) {
         response.json(note)
@@ -200,33 +200,33 @@ app.get('/api/albums/:id', (request, response) => {
       }
     })
     .catch(error => {
-      const idArr = request.params.id.split('');
+      const idArr = request.params.id.split('')
       console.log(error)
       response.status(400).send(
         {
           error: `${request.params.id} is a malformed ID. 
           Must be ${24 - idArr.length} digits longer.`
-      })
+        })
     })
 })
 
 
 app.delete('/api/albums/:id', (request, response, next) => {
   Album.findById(request.params.id)
-   .then(album => {
-    if (!album) {
-      console.log('Album doesn\'t exist!')
-      response.status(200).send('Album already deleted!')
-    } 
-    else {
-      Album.findByIdAndDelete(request.params.id)
-        .then(result => {
-        console.log('Album deleted!')
-        response.status(200).send("Album deleted!")
-      })
-        .catch(error => next(error))
-    }
-  })   
+    .then(album => {
+      if (!album) {
+        console.log('Album doesn\'t exist!')
+        response.status(200).send('Album already deleted!')
+      } 
+      else {
+        Album.findByIdAndDelete(request.params.id)
+          .then(result => {
+            console.log('Album deleted!')
+            response.status(200).send('Album deleted!')
+          })
+          .catch(error => next(error))
+      }
+    })   
 })
 
 
@@ -252,22 +252,21 @@ app.post('/api/albums', (request, response, next) => {
         artist: body.artist,
         genre: body.genre,
         important: Boolean(body.important) || false,
-      }
-    )
-    const error = album.validateSync();
+      })
+    const error = album.validateSync()
     console.log(error)
     album.save()
       .then(savedAlbum => {
-      response.json(savedAlbum)})
-      .catch(errpr => {
+        response.json(savedAlbum)})
+      .catch(error => {
         next(error)
       })
   }
 })
 
 app.put('/api/albums/:id', (request, response, next) => {
-  const body = request.body;
-  const { album, artist, genre } = request.body;
+  //const body = request.body
+  const { album, artist, genre } = request.body
 
   /*
   const album = {
@@ -288,7 +287,7 @@ app.put('/api/albums/:id', (request, response, next) => {
     })
     .then(updatedAlbum => {
       response.json(updatedAlbum)
-  })
+    })
     .catch(error => next(error))
 })
 
@@ -299,7 +298,7 @@ app.put('/api/albums/:id', (request, response, next) => {
 const unknownEndpoint = (request,response) => {
   console.log('custom error message')
   response.status(404).send({ error: 'unknown endpoint' })
-};
+}
 app.use(unknownEndpoint)
 
 
