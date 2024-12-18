@@ -1,3 +1,6 @@
+//file only as practice/test for returning albums(s)
+//file not exported or imported elsewhere
+
 // Import Mongoose
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
