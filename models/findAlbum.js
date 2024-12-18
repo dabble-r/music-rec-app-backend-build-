@@ -1,7 +1,3 @@
-//file only as practice/test for returning albums(s)
-//file not exported or imported elsewhere
-
-// Import Mongoose
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -14,15 +10,32 @@ const uri = process.env.MONGODB_URI
 // Connect to MongoDB using Mongoose
 mongoose.set('strictQuery',false)
 mongoose.connect(uri)
-  .then(() => console.log('Connected to MongoDB Atlas'))
-  .catch(err => console.error('Connection error:', err))
+  .then(result => {
+    console.log('connected to MongoDB Atlas!')
+  })
+  .catch(error => {
+    console.log('error connecting to MongoDB:', error.message)
+  })
 
+  
+// Not required for retrieval
 // Define a Schema for the Album collection
 const albumSchema = new mongoose.Schema({
-  album: String,
+  album: {
+    type:String,
+    required:true
+  },
   artist: String,
   genre: String,
   important: Boolean,
+})
+
+albumSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
 })
 
 // Create a Model from the Schema
@@ -34,6 +47,7 @@ Album.find({}).then(result => {
   result.forEach(album => {
     console.log(album)
   })
-  mongoose.connection.close()
+  //mongoose.connection.close()
 })
 
+export default mongoose.model('Album', albumSchema)
