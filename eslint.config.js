@@ -40,6 +40,7 @@ export default [
       '@stylistic/js/semi': [
         'error', 'never'
       ],
+      'no-console': 'off'
     }, 
   } 
 ]

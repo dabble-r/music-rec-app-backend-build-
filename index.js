@@ -143,32 +143,6 @@ app.get('/api/info', async (request, response) => {
   }
 })
 
-/*
-// error handling within HTTP method
-app.get('/api/albums/:id', (request, response) => {
-  Album.findById(request.params.id)
-    .then(album => {
-      response.json(album)
-  })
-    .then(note => {
-      if (note) {
-        response.json(note)
-      } else {
-        response.status(404).end()
-      }
-    })
-    .catch(error => {
-      const idArr = request.params.id.split('');
-      console.log(error)
-      response.status(400).send(
-        {
-          error: `${request.params.id} is a malformed ID. 
-          Must be ${24 - idArr.length} digits longer.`
-      })
-    })
-})
-*/
-
 // error handling centralized to middleware
 // passed to next function/parameter
 app.get('/api/albums/:id', (request, response, next) => {
@@ -267,16 +241,6 @@ app.post('/api/albums', (request, response, next) => {
 app.put('/api/albums/:id', (request, response, next) => {
   //const body = request.body
   const { album, artist, genre } = request.body
-
-  /*
-  const album = {
-    album : body.album,
-    artist : body.artist,
-    genre : body.genre,
-    important: body.important,
-    id: ""
-  }
-  */
 
   Album.findByIdAndUpdate(
     request.params.id, 
