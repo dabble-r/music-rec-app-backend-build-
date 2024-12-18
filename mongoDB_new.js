@@ -38,7 +38,7 @@ const Album = mongoose.model('Album', albumSchema)
 
 // Create and save a new album document
 const album = new Album({
-  album: 'One Size Fits All - test3',
+  album: 'One Size Fits All - test - ValidationError',
   artist: 'Frank Zappa',
   genre: 'Rock',
   important: true,

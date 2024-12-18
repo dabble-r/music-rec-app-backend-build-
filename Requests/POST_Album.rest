@@ -5,7 +5,7 @@ Content-Type: application/json
 {
   "id": "",
   "album": "One Size Fits All",
-  "artist": "Frank Zappa - test : POST - after build/deploy 3",
+  "artist": "Frank Zappa - test : POST - after refactor frontend/build 1",
   "genre": "Rock/Experimental",
   "important": true
 }
