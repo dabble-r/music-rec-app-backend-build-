@@ -1,10 +1,11 @@
-PUT http://localhost:3002/api/albums/6762ea4a987f75bb07f87485 HTTP/1.1
+
+PUT http://localhost:3002/api/albums/67633bc288ca1d854091f945 HTTP/1.1
 Content-Type: application/json 
 
 {
   "id": "",
-  "album": "One Size Fits All - test PUT - new dist - 1",
+  "album": "One Size Fits All - test PUT - 5",
   "artist": "Frank Zappa",
-  "genre": "Rock/Experimental",
+  "genre": "Rock",
   "important": true
 }
