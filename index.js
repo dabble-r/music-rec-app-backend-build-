@@ -241,7 +241,10 @@ app.post('/api/albums', (request, response, next) => {
 app.put('/api/albums/:id', (request, response, next) => {
   //const body = request.body
   const { album, artist, genre } = request.body
-
+  const id = request.params.id
+  if (id.length < 24) {
+    response.status(400).send('Album ID must be 24 digits!')
+  }
   Album.findByIdAndUpdate(
     request.params.id, 
     { album, artist, genre },  
