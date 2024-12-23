@@ -280,6 +280,9 @@ app.listen(PORT, () => {
 })
 */
 
+// after all code modularized
+// index.js simplified to the following lines
+
 import app from './app.js'
 import { PORT } from './utils/config.js'
 import { info } from './utils/logger.js'
