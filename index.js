@@ -1,3 +1,4 @@
+/*
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
@@ -76,6 +77,7 @@ let albums = [
   }
 ]
 
+*/
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // code to connect to db from MongoDB site
@@ -110,8 +112,7 @@ const Album = mongoose.model('Album', albumSchema);
 //////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+/*
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
@@ -275,4 +276,20 @@ const PORT = process.env.PORT || 3002
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
+
 })
+*/
+
+// after all code modularized
+// index.js simplified to the following lines
+
+import app from './app.js'
+import { PORT } from './utils/config.js'
+import { info } from './utils/logger.js'
+
+
+
+app.listen(PORT, () => {
+  info(`Server running on port ${PORT}`)
+})
+
